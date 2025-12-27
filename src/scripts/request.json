@@ -1,0 +1,12 @@
+{
+  "subtask_spec": {
+    "subtask_id": "subtask_demo",
+    "goal": "Pick an atomic node to handle an echo-like task"
+  },
+  "constraints": {
+    "candidates": {
+      "max_candidates_per_subtask": 3
+    }
+  }
+}
+

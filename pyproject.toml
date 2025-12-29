@@ -3,9 +3,9 @@ requires = ["setuptools>=70", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "arp-template-selection-service"
+name = "jarvis-selection-service"
 version = "0.3.1"
-description = "Template Selection Service implementation for the ARP Standard (spec/v1)."
+description = "JARVIS Selection Service implementation for the ARP Standard (spec/v1)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -15,18 +15,18 @@ dependencies = [
   "arp-standard-client==0.3.1",
   "arp-standard-server==0.3.1",
   "arp-standard-model==0.3.1",
+  "arp-llm==0.1.0",
+  "uvicorn>=0.29.0",
 ]
 
 [project.optional-dependencies]
 dev = ["pyright>=1.1.0", "pytest>=7"]
-run = ["uvicorn>=0.29.0"]
 
 [project.scripts]
-arp-template-selection-service = "arp_template_selection_service.__main__:main"
+jarvis-selection-service = "jarvis_selection_service.__main__:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
-

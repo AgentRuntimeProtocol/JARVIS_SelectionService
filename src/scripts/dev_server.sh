@@ -65,4 +65,4 @@ if [[ "$RELOAD" -eq 1 ]]; then
   args+=(--reload)
 fi
 
-exec python3 -m arp_template_selection_service "${args[@]}"
+exec python3 -m jarvis_selection_service "${args[@]}"

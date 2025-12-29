@@ -24,7 +24,7 @@ T = TypeVar("T")
 
 
 class NodeRegistryGatewayClient:
-    """Outgoing Node Registry client wrapper for the Selection Service template."""
+    """Outgoing Node Registry client wrapper for the Selection Service."""
 
     # Core method - API surface and main extension points
     def __init__(
@@ -64,7 +64,7 @@ class NodeRegistryGatewayClient:
             NodeRegistryVersionRequest(),
         )
 
-    # Helpers (internal): implementation detail for the template.
+    # Helpers (internal): implementation detail for the reference implementation.
     async def _call(self, fn: Callable[[Any], T], request: Any) -> T:
         try:
             return await asyncio.to_thread(fn, request)

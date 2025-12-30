@@ -60,6 +60,27 @@ Outgoing client wrapper (selection -> node registry):
 - Applies `constraints.candidates.max_candidates_per_subtask` as the top-K bound when provided.
 - Returns an error if the LLM is unavailable or no candidates can be produced.
 
+### Extensions
+
+The Selection API surfaces `extensions` in both inputs and outputs. This implementation uses them as follows:
+
+Consumes `NodeType.extensions` from Node Registry inventory:
+- `jarvis.role` (planner detection)
+- `jarvis.side_effect`, `jarvis.egress_policy`, `jarvis.tags` (enrich the LLM menu)
+
+Writes `CandidateSet.extensions` for observability:
+- `jarvis.selection.strategy` (currently `llm`)
+- `jarvis.llm.provider`, `jarvis.llm.model`, `jarvis.llm.latency_ms`
+
+Passthrough:
+- Any keys provided in `CandidateSetRequest.extensions` are copied into `CandidateSet.extensions` (non-sensitive metadata only).
+
+Reserved (accepted but not required in v0.3.x):
+- `SubtaskSpec.extensions.jarvis.subtask.notes`
+- `SubtaskSpec.extensions.jarvis.root_goal`
+
+Full cross-stack list: `Business_Docs/JARVIS/Extensions.md`.
+
 ## Quick health check
 
 ```bash

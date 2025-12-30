@@ -25,7 +25,7 @@ class SelectionService(BaseSelectionServer):
     def __init__(
         self,
         *,
-        service_name: str = "jarvis-selection-service",
+        service_name: str = "arp-jarvis-selection-service",
         service_version: str = __version__,
         node_registry: NodeRegistryGatewayClient | None = None,
         llm: ChatModel | None = None,

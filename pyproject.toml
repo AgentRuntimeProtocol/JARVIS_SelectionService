@@ -3,7 +3,7 @@ requires = ["setuptools>=70", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jarvis-selection-service"
+name = "arp-jarvis-selection-service"
 version = "0.3.1"
 description = "JARVIS Selection Service implementation for the ARP Standard (spec/v1)."
 readme = "README.md"
@@ -23,7 +23,7 @@ dependencies = [
 dev = ["pyright>=1.1.0", "pytest>=7", "pytest-cov>=4"]
 
 [project.scripts]
-jarvis-selection-service = "jarvis_selection_service.__main__:main"
+arp-jarvis-selection-service = "jarvis_selection_service.__main__:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }

@@ -79,7 +79,7 @@ Reserved (accepted but not required in v0.3.x):
 - `SubtaskSpec.extensions.jarvis.subtask.notes`
 - `SubtaskSpec.extensions.jarvis.root_goal`
 
-Full cross-stack list: `Business_Docs/JARVIS/Extensions.md`.
+Full cross-stack list: `https://github.com/AgentRuntimeProtocol/BusinessDocs/blob/main/Business_Docs/JARVIS/Extensions.md`.
 
 ## Quick health check
 
@@ -105,7 +105,7 @@ Env vars (selected):
 LLM (required when `JARVIS_SELECTION_STRATEGY=llm`):
 
 - `ARP_LLM_PROFILE`, `ARP_LLM_CHAT_MODEL`, `ARP_LLM_API_KEY`, ...
-  - See `Business_Docs/JARVIS/LLMProvider/HLD.md` and `Business_Docs/JARVIS/LLMProvider/LLD.md`.
+  - See `https://github.com/AgentRuntimeProtocol/BusinessDocs/blob/main/Business_Docs/JARVIS/LLMProvider/HLD.md` and `https://github.com/AgentRuntimeProtocol/BusinessDocs/blob/main/Business_Docs/JARVIS/LLMProvider/LLD.md`.
 
 ## Validate conformance (`arp-conformance`)
 

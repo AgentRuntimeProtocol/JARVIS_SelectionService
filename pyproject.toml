@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "arp-jarvis-selection-service"
-version = "0.3.1"
+version = "0.3.3"
 description = "JARVIS Selection Service implementation for the ARP Standard (spec/v1)."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -12,10 +12,10 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Agent Runtime Protocol" }]
 dependencies = [
-  "arp-standard-client==0.3.1",
-  "arp-standard-server==0.3.1",
-  "arp-standard-model==0.3.1",
-  "arp-llm==0.1.0",
+  "arp-standard-client==0.3.3",
+  "arp-standard-server==0.3.3",
+  "arp-standard-model==0.3.3",
+  "arp-llm==0.1.1",
   "uvicorn>=0.29.0",
 ]
 

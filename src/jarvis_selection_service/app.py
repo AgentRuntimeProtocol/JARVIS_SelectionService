@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import os
 
-from arp_llm.settings import load_chat_model_from_env_or_dev_mock
+from arp_llm.settings import load_chat_model_from_env
 
 from .node_registry_client import NodeRegistryGatewayClient
 from .service import SelectionService
@@ -36,7 +36,7 @@ def create_app():
     llm = None
     if selection_strategy == "llm":
         try:
-            llm = load_chat_model_from_env_or_dev_mock()
+            llm = load_chat_model_from_env()
         except Exception as exc:
             logger.warning("Failed to load LLM profile; selection will error until configured. %s", exc)
 

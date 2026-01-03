@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import uuid
 from collections.abc import Iterable
 from typing import Any
@@ -24,6 +25,8 @@ from .llm_assets import SELECTION_RESPONSE_SCHEMA, SELECTION_SYSTEM_PROMPT
 from .node_registry_client import NodeRegistryGatewayClient
 from .utils import now
 
+logger = logging.getLogger(__name__)
+
 
 class SelectionStrategy:
     def __init__(
@@ -42,6 +45,13 @@ class SelectionStrategy:
         self._planner_node_type_id = planner_node_type_id
 
     async def generate(self, request: CandidateSetRequest) -> CandidateSet:
+        logger.info(
+            "Selection requested (subtask_id=%s, goal_len=%s, constraints=%s, strategy=%s)",
+            request.subtask_spec.subtask_id,
+            len(request.subtask_spec.goal),
+            request.constraints is not None,
+            self._strategy,
+        )
         # Resolve request-level constraints before building candidates.
         top_k = _resolve_top_k(request.constraints, default=self._top_k_default)
         # Fetch inventory from Node Registry and split atomic vs planner-capable composites.
@@ -49,8 +59,15 @@ class SelectionStrategy:
         # Apply hard allow/deny filters to the candidate inventory.
         atomic_types = _filter_node_types(atomic_types, request.constraints)
         planner_types = _filter_node_types(planner_types, request.constraints)
+        logger.info(
+            "Selection inventory resolved (atomic=%s, planners=%s, top_k=%s)",
+            len(atomic_types),
+            len(planner_types),
+            top_k,
+        )
 
         if self._strategy != "llm":
+            logger.warning("Selection strategy unsupported (strategy=%s)", self._strategy)
             raise ArpServerError(
                 code="selection_strategy_unsupported",
                 message="Only the 'llm' selection strategy is supported",
@@ -58,6 +75,7 @@ class SelectionStrategy:
                 details={"strategy": self._strategy},
             )
         if self._llm is None:
+            logger.warning("Selection LLM missing")
             raise ArpServerError(
                 code="selection_llm_missing",
                 message="Selection requires an LLM, but no model is configured",
@@ -74,6 +92,7 @@ class SelectionStrategy:
         except ArpServerError:
             raise
         except LlmError as exc:
+            logger.warning("Selection LLM error (code=%s, message=%s)", exc.code, exc.message)
             raise ArpServerError(
                 code=f"selection_llm_{exc.code}",
                 message=exc.message,
@@ -82,6 +101,7 @@ class SelectionStrategy:
                 retryable=exc.retryable,
             ) from exc
         except Exception as exc:
+            logger.exception("Selection LLM failed")
             raise ArpServerError(
                 code="selection_llm_failed",
                 message="Selection LLM request failed",
@@ -93,6 +113,7 @@ class SelectionStrategy:
         atomic_types: list[NodeType] = []
         planner_types: list[NodeType] = []
         if self._node_registry is None:
+            logger.warning("Selection inventory missing Node Registry")
             return atomic_types, planner_types
         atomic_types = await self._node_registry.list_node_types(kind=NodeKind.atomic)
         composite_types = await self._node_registry.list_node_types(kind=NodeKind.composite)
@@ -149,6 +170,12 @@ class SelectionStrategy:
                 planner_types=planner_types,
                 top_k=top_k,
             )
+        logger.info(
+            "Selection LLM resolved (subtask_id=%s, candidates=%s, needs_planner=%s)",
+            request.subtask_spec.subtask_id,
+            len(candidates),
+            needs_planner,
+        )
 
         if not candidates:
             raise ArpServerError(

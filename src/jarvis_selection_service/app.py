@@ -27,6 +27,13 @@ def create_app():
             top_k_default = int(top_k_raw)
         except ValueError:
             logger.warning("Invalid JARVIS_SELECTION_TOP_K_DEFAULT: %s", top_k_raw)
+    logger.info(
+        "Selection config (strategy=%s, top_k_default=%s, planner_node_type_id=%s, node_registry=%s)",
+        selection_strategy,
+        top_k_default,
+        planner_node_type_id,
+        bool(node_registry_url),
+    )
 
     node_registry = None
     if node_registry_url:
@@ -40,6 +47,12 @@ def create_app():
         except Exception as exc:
             logger.warning("Failed to load LLM profile; selection will error until configured. %s", exc)
 
+    auth_settings = auth_settings_from_env_or_dev_insecure()
+    logger.info(
+        "Selection auth settings (mode=%s, issuer=%s)",
+        auth_settings.mode,
+        auth_settings.issuer,
+    )
     return SelectionService(
         node_registry=node_registry,
         llm=llm,
@@ -48,7 +61,7 @@ def create_app():
         planner_node_type_id=planner_node_type_id,
     ).create_app(
         title="JARVIS Selection Service",
-        auth_settings=auth_settings_from_env_or_dev_insecure(),
+        auth_settings=auth_settings,
     )
 
 

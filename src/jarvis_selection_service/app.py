@@ -50,8 +50,8 @@ def create_app():
     auth_settings = auth_settings_from_env_or_dev_insecure()
     logger.info(
         "Selection auth settings (mode=%s, issuer=%s)",
-        auth_settings.mode,
-        auth_settings.issuer,
+        getattr(auth_settings, "mode", None),
+        getattr(auth_settings, "issuer", None),
     )
     return SelectionService(
         node_registry=node_registry,

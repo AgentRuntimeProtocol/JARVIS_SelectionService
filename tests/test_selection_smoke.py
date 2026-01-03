@@ -19,8 +19,8 @@ from jarvis_selection_service.service import SelectionService
 
 def test_generate_candidate_set_respects_max_k() -> None:
     atomic = [
-        _node_type("jarvis.core.echo", version="0.3.5", kind=NodeKind.atomic, description="Echo"),
-        _node_type("jarvis.web.fetch", version="0.3.5", kind=NodeKind.atomic, description="Fetch"),
+        _node_type("jarvis.core.echo", version="0.3.7", kind=NodeKind.atomic, description="Echo"),
+        _node_type("jarvis.web.fetch", version="0.3.7", kind=NodeKind.atomic, description="Fetch"),
     ]
     registry = _FakeRegistry(atomic=atomic, composite=[])
     fixtures = [
@@ -30,13 +30,13 @@ def test_generate_candidate_set_respects_max_k() -> None:
                 "candidates": [
                     {
                         "node_type_id": "jarvis.core.echo",
-                        "version": "0.3.5",
+                        "version": "0.3.7",
                         "score": 0.9,
                         "rationale": "Best match",
                     },
                     {
                         "node_type_id": "jarvis.web.fetch",
-                        "version": "0.3.5",
+                        "version": "0.3.7",
                         "score": 0.8,
                         "rationale": "Secondary match",
                     },
@@ -94,11 +94,11 @@ def _node_type(node_type_id: str, *, version: str, kind: NodeKind, description: 
 
 
 def test_generate_candidate_set_llm_adds_planner() -> None:
-    atomic = [_node_type("jarvis.core.echo", version="0.3.5", kind=NodeKind.atomic, description="Echo")]
+    atomic = [_node_type("jarvis.core.echo", version="0.3.7", kind=NodeKind.atomic, description="Echo")]
     planner = [
         _node_type(
             "jarvis.composite.planner.general",
-            version="0.3.5",
+            version="0.3.7",
             kind=NodeKind.composite,
             description="Planner",
         )
@@ -111,7 +111,7 @@ def test_generate_candidate_set_llm_adds_planner() -> None:
                 "candidates": [
                     {
                         "node_type_id": "jarvis.core.echo",
-                        "version": "0.3.5",
+                        "version": "0.3.7",
                         "score": 0.9,
                         "rationale": "Best match",
                     }

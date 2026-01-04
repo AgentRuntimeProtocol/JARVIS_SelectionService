@@ -23,8 +23,8 @@ from jarvis_selection_service.service import SelectionService
 
 def test_generate_candidate_set_respects_max_k() -> None:
     atomic = [
-        _node_type("jarvis.core.echo", version="0.3.7", kind=NodeKind.atomic, description="Echo"),
-        _node_type("jarvis.web.fetch", version="0.3.7", kind=NodeKind.atomic, description="Fetch"),
+        _node_type("jarvis.core.echo", version="0.3.8", kind=NodeKind.atomic, description="Echo"),
+        _node_type("jarvis.web.fetch", version="0.3.8", kind=NodeKind.atomic, description="Fetch"),
     ]
     registry = _FakeRegistry(atomic=atomic, composite=[])
     fixtures = [
@@ -34,13 +34,13 @@ def test_generate_candidate_set_respects_max_k() -> None:
                 "candidates": [
                     {
                         "node_type_id": "jarvis.core.echo",
-                        "version": "0.3.7",
+                        "version": "0.3.8",
                         "score": 0.9,
                         "rationale": "Best match",
                     },
                     {
                         "node_type_id": "jarvis.web.fetch",
-                        "version": "0.3.7",
+                        "version": "0.3.8",
                         "score": 0.8,
                         "rationale": "Secondary match",
                     },
@@ -100,11 +100,11 @@ def _node_type(node_type_id: str, *, version: str, kind: NodeKind, description: 
 
 
 def test_generate_candidate_set_llm_adds_planner() -> None:
-    atomic = [_node_type("jarvis.core.echo", version="0.3.7", kind=NodeKind.atomic, description="Echo")]
+    atomic = [_node_type("jarvis.core.echo", version="0.3.8", kind=NodeKind.atomic, description="Echo")]
     planner = [
         _node_type(
             "jarvis.composite.planner.general",
-            version="0.3.7",
+            version="0.3.8",
             kind=NodeKind.composite,
             description="Planner",
         )
@@ -117,7 +117,7 @@ def test_generate_candidate_set_llm_adds_planner() -> None:
                 "candidates": [
                     {
                         "node_type_id": "jarvis.core.echo",
-                        "version": "0.3.7",
+                        "version": "0.3.8",
                         "score": 0.9,
                         "rationale": "Best match",
                     }
@@ -186,9 +186,9 @@ class _CaptureChatModel(ChatModel):
 
 def test_generate_candidate_set_includes_prior_steps_and_dedupes_versions() -> None:
     atomic = [
-        _node_type("jarvis.core.echo", version="0.3.7", kind=NodeKind.atomic, description="Echo (old)"),
+        _node_type("jarvis.core.echo", version="0.3.8", kind=NodeKind.atomic, description="Echo (old)"),
         _node_type("jarvis.core.echo", version="0.10.0", kind=NodeKind.atomic, description="Echo (new)"),
-        _node_type("jarvis.core.uuid4", version="0.3.7", kind=NodeKind.atomic, description="UUID4"),
+        _node_type("jarvis.core.uuid4", version="0.3.8", kind=NodeKind.atomic, description="UUID4"),
     ]
     registry = _FakeRegistry(atomic=atomic, composite=[])
     llm = _CaptureChatModel()
@@ -214,7 +214,7 @@ def test_generate_candidate_set_includes_prior_steps_and_dedupes_versions() -> N
                     "jarvis.prior_steps": [
                         {
                             "subtask_id": "S1",
-                            "node_type_ref": {"node_type_id": "jarvis.core.uuid4", "version": "0.3.7"},
+                            "node_type_ref": {"node_type_id": "jarvis.core.uuid4", "version": "0.3.8"},
                             "outputs": {"uuid4": "1950631f-c549-4cfd-916c-750d4584783b"},
                         }
                     ]
@@ -247,7 +247,7 @@ def test_generate_candidate_set_includes_prior_steps_and_dedupes_versions() -> N
 
 
 def test_generate_candidate_set_blocked_reason_raises() -> None:
-    atomic = [_node_type("jarvis.core.echo", version="0.3.7", kind=NodeKind.atomic, description="Echo")]
+    atomic = [_node_type("jarvis.core.echo", version="0.3.8", kind=NodeKind.atomic, description="Echo")]
     registry = _FakeRegistry(atomic=atomic, composite=[])
     fixtures = [
         DevMockChatFixture(
